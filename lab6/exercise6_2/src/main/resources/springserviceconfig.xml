@@ -7,6 +7,7 @@
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
        
+       <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	<import resource="springdaoconfig.xml" />
 	<import resource="springjmsconfig.xml" />
 
@@ -18,5 +19,6 @@
 	</bean>
 	<bean id="logger" class="cs544.spring.bank.logging.Logger" />
 	<bean id="currencyConverter" class="cs544.spring.bank.service.CurrencyConverter" />
+	<bean id="aop" class="cs544.spring.aop.TraceAdvisor"></bean>
 
 </beans>
