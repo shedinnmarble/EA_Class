@@ -21,13 +21,20 @@ public class AccountService implements IAccountService {
 	private IJMSSender jmsSender;
 	private ILogger logger;
 
-	public AccountService(){
-		accountDAO=new AccountDAO();
-		currencyConverter= new CurrencyConverter();
-		jmsSender =  new JMSSender();
-		logger = new Logger();
+//	public AccountService(){
+//		accountDAO=new AccountDAO();
+//		currencyConverter= new CurrencyConverter();
+//		jmsSender =  new JMSSender();
+//		logger = new Logger();
+//	}
+	public AccountService(IAccountDAO accountDAO, ICurrencyConverter currencyConverter, IJMSSender jmsSender,
+			ILogger logger) {
+		super();
+		this.accountDAO = accountDAO;
+		this.currencyConverter = currencyConverter;
+		this.jmsSender = jmsSender;
+		this.logger = logger;
 	}
-
 	public Account createAccount(long accountNumber, String customerName) {
 		Account account = new Account(accountNumber);
 		Customer customer = new Customer(customerName);
@@ -36,6 +43,8 @@ public class AccountService implements IAccountService {
 		logger.log("createAccount with parameters accountNumber= "+accountNumber+" , customerName= "+customerName);
 		return account;
 	}
+
+
 
 	public void deposit(long accountNumber, double amount) {
 		Account account = accountDAO.loadAccount(accountNumber);
