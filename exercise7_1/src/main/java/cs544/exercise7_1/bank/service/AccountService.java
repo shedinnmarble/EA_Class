@@ -1,6 +1,8 @@
 package cs544.exercise7_1.bank.service;
 
 import java.util.Collection;
+
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +23,30 @@ public class AccountService implements IAccountService {
 	private ICurrencyConverter currencyConverter;
 	private IJMSSender jmsSender;
 	private ILogger logger;
-
-	public AccountService() {
-		accountDAO = new AccountDAOHibernate();
-		currencyConverter = new CurrencyConverter();
-		jmsSender = new JMSSender();
-		logger = new Logger();
+	private SessionFactory sf; 
+//	public AccountService() {
+//		accountDAO = new AccountDAOHibernate();
+//		currencyConverter = new CurrencyConverter();
+//		jmsSender = new JMSSender();
+//		logger = new Logger();
+//	}
+	
+	
+	public AccountService(IAccountDAO accountDAO, ICurrencyConverter currencyConverter, IJMSSender jmsSender,
+			ILogger logger, SessionFactory sf) {
+		super();
+		this.accountDAO = accountDAO;
+		this.currencyConverter = currencyConverter;
+		this.jmsSender = jmsSender;
+		this.logger = logger;
+		this.sf = sf;
 	}
-
+	public AccountService() {
+		
+	}
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Account createAccount(long accountNumber, String customerName) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account account = new Account(accountNumber);
 		Customer customer = new Customer(customerName);
@@ -44,8 +59,10 @@ public class AccountService implements IAccountService {
 		return account;
 	}
 
+	
+
 	public void deposit(long accountNumber, double amount) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.deposit(amount);
@@ -59,7 +76,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public Account getAccount(long accountNumber) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 
@@ -68,7 +85,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public Collection<Account> getAllAccounts() {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 		Collection<Account> accounts = accountDAO.getAccounts();
 		tx.commit();
 
@@ -76,7 +93,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void withdraw(long accountNumber, double amount) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.withdraw(amount);
@@ -86,7 +103,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void depositEuros(long accountNumber, double amount) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		double amountDollars = currencyConverter.euroToDollars(amount);
@@ -100,7 +117,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void withdrawEuros(long accountNumber, double amount) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		double amountDollars = currencyConverter.euroToDollars(amount);
@@ -112,7 +129,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void transferFunds(long fromAccountNumber, long toAccountNumber, double amount, String description) {
-		Transaction tx = HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Account fromAccount = accountDAO.loadAccount(fromAccountNumber);
 		Account toAccount = accountDAO.loadAccount(toAccountNumber);

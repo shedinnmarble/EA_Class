@@ -57,11 +57,11 @@ public class App {
             }
 
         } catch (RuntimeException e) {
-            Transaction tx = HibernateUtil.getSessionFactory()
-                    .getCurrentSession().getTransaction();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            Transaction tx = HibernateUtil.getSessionFactory()
+//                    .getCurrentSession().getTransaction();
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             e.printStackTrace(System.err);
         }
         System.exit(0);

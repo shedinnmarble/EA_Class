@@ -8,7 +8,13 @@ import cs544.exercise7_1.bank.domain.Account;
 
 public class AccountDAOHibernate implements IAccountDAO{
 
-	private SessionFactory sf = HibernateUtil.getSessionFactory();
+	//private SessionFactory sf = HibernateUtil.getSessionFactory();
+	private SessionFactory sf;
+	
+	public AccountDAOHibernate(SessionFactory sf) {
+		//super();
+		this.sf = sf;
+	}
 
 	@SuppressWarnings("unchecked")
 	public Collection<Account> getAccounts() {

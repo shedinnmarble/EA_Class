@@ -3,30 +3,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="accountService" class="cs544.exercise7_1.bank.service.AccountService"></bean>
-<!-- 	<bean id="hibernateUtil" class="cs544.exercise7_1.bank.dao.HibernateUtil"> -->
-<!-- 	<property name="sessionFactory" ref="sessionFactory"></property> -->
-<!-- 	</bean> -->
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="staticMethod" value="cs544.exercise7_1.bank.dao.HibernateUtil.setSessionFactoryAA"/>
-    <property name="arguments">
-        <list>
-            <ref bean="sessionFactory"/>
-        </list>
-   </property>
-</bean>
-<!-- 		<bean id="accountService2" class="cs544.exercise7_1.bank.service.AccountService"> -->
-<!-- 		<constructor-arg index="0" ref="accountDAO" /> -->
-<!-- 		<constructor-arg index="1" ref="currencyConverter" /> -->
-<!-- 		<constructor-arg index="2" ref="jmsSender" /> -->
-<!-- 		<constructor-arg index="3" ref="logger" /> -->
-<!-- 		<constructor-arg index="4" ref="sessionFactory"></constructor-arg> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="logger" class="cs544.exercise7_1.bank.logging.Logger" /> -->
-<!-- 	<bean id="currencyConverter" class="cs544.exercise7_1.bank.service.CurrencyConverter" /> -->
-<!-- 	<bean id="jmsSender" class="cs544.exercise7_1.bank.jms.JMSSender" /> -->
-<!-- 	<bean id="accountDAO" class="cs544.exercise7_1.bank.dao.AccountDAO" /> -->
-	
+
+	<bean id="hSessionFactory" class="cs544.exercise7_1.bank.dao.AccountDAOHibernate">
+		<constructor-arg index="0" ref="sessionFactory"></constructor-arg>
+	</bean>
+
+	<bean id="accountService" class="cs544.exercise7_1.bank.service.AccountService">
+		<constructor-arg index="0" ref="accountDAO" />
+		<constructor-arg index="1" ref="currencyConverter" />
+		<constructor-arg index="2" ref="jmsSender" />
+		<constructor-arg index="3" ref="logger" />
+		<constructor-arg index="4" ref="sessionFactory" />
+	</bean>
+	<bean id="logger" class="cs544.exercise7_1.bank.logging.Logger" />
+	<bean id="currencyConverter" class="cs544.exercise7_1.bank.service.CurrencyConverter" />
+	<bean id="jmsSender" class="cs544.exercise7_1.bank.jms.JMSSender" />
+	<bean id="accountDAO" class="cs544.exercise7_1.bank.dao.AccountDAO" />
+	<!-- //class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
@@ -47,25 +40,14 @@
 		</property>
 	</bean>
 	<bean id="hibernateProperties"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean"
-		>
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="properties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">create</prop>
 				<prop key="hibernate.dialet">org.hibernate.dialet.MySQL5Dialet</prop>
 				<prop key="connection.pool.size">1</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.current_session_context_class">thread</prop>
 			</props>
 		</property>
 	</bean>
-
-
-
-
-
-
-
-
-
 </beans>
