@@ -2,6 +2,8 @@ package cs544.exercise7_1.bank;
 
 import java.util.Collection;
 import org.hibernate.Transaction;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import cs544.exercise7_1.bank.dao.HibernateUtil;
 import cs544.exercise7_1.bank.domain.Account;
@@ -14,7 +16,10 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            IAccountService accountService = new AccountService();
+        	ApplicationContext context = new ClassPathXmlApplicationContext(
+    				"SpringHibernate.xml");
+    		IAccountService accountService = context.getBean("accountService",
+    				IAccountService.class);
             // create 2 accounts;
             accountService.createAccount(1263862, "Frank Brown");
             accountService.createAccount(4253892, "John Doe");
