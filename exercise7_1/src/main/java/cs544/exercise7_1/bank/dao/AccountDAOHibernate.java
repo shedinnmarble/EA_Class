@@ -11,8 +11,11 @@ public class AccountDAOHibernate implements IAccountDAO{
 	//private SessionFactory sf = HibernateUtil.getSessionFactory();
 	private SessionFactory sf;
 	
-	public AccountDAOHibernate(SessionFactory sf) {
-		//super();
+	public AccountDAOHibernate() {
+	
+	}
+
+	public void setSf(SessionFactory sf) {
 		this.sf = sf;
 	}
 

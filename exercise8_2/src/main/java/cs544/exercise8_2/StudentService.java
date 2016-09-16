@@ -6,10 +6,18 @@ import org.hibernate.Transaction;
 
 public class StudentService {
 	private StudentDAO studentdao;
-	private static SessionFactory sf = HibernateUtil.getSessionFactory();
+	private  SessionFactory sf ;//= HibernateUtil.getSessionFactory();
 
 	public StudentService() {
-		studentdao = new StudentDAO();
+		
+	}
+
+	public void setStudentdao(StudentDAO studentdao) {
+		this.studentdao = studentdao;
+	}
+
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
 	}
 
 	public Student getStudent(long studentid) {

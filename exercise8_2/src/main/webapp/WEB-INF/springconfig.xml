@@ -17,12 +17,17 @@
 
 	<bean id="studentService" class="cs544.exercise8_2.StudentService">
 		<property name="studentdao" ref="studentDAO" />
+		<property name="sf" ref="sessionFactory" />
 	</bean>
-	
-	<bean id="studentDAO" class="cs544.exercise8_2.StudentDAO" init-method="init">
-		<property name="sessionFactory" ref="sessionFactory" />
+
+	<bean id="studentDAO" class="cs544.exercise8_2.StudentDAO"
+		init-method="init">
+		<property name="sf" ref="sessionFactory" />
+
 	</bean>
-	
+	<bean id="openSessionFilter" class="cs544.exercise8_2.OpenSessionInViewFilter">
+		<property name="sf" ref="sessionFactory" />
+	</bean>
 	<!-- Hibernate SessionFactory -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -43,7 +48,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/cs544" />
 		<property name="username" value="root" />
-		<property name="password" value="password" />
+		<property name="password" value="root" />
 	</bean>
 
 	<!-- hibernate Properties -->
@@ -65,5 +70,5 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
 </beans>

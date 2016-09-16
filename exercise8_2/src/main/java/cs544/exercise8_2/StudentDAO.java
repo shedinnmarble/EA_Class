@@ -6,9 +6,10 @@ import org.hibernate.Transaction;
 
 public class StudentDAO {
 
-	private static SessionFactory sf = HibernateUtil.getSessionFactory();
+	private  SessionFactory sf ;//= HibernateUtil.getSessionFactory();
 
-	static {
+	private StudentDAO(SessionFactory sf){
+		this.sf=sf;
 		Session session = sf.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 
@@ -21,6 +22,7 @@ public class StudentDAO {
 		session.persist(student);
 		tx.commit();
 	}
+
 
 	public Student load(long studentid) {
 		return (Student) sf.getCurrentSession().get(Student.class, studentid);
