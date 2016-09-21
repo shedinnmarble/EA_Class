@@ -14,11 +14,10 @@ import cs544.exercise10_1.customer.Customer;
 @RequestMapping(value = "/rest")
 
 public class CustomerController implements ICustomerService {
-	private CustomerService customerService;
+	private ICustomerService customerService = new CustomerService();
 
-	@Autowired
-	public void setCustomerService(CustomerService customerService) {
-		this.customerService = customerService;
+	public void setCustomerService(ICustomerService customerService) {
+		this.customerService = new CustomerService();
 	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)

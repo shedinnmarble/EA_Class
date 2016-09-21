@@ -1,5 +1,6 @@
 package cs544.exercise10_1.client;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.web.client.RestTemplate;
@@ -10,7 +11,7 @@ import cs544.exercise10_1.service.ICustomerService;
 public class CustomerServiceProxy implements ICustomerService {
 
 	private static final String customersURL = "http://localhost:8080/exercise10_1-service/rest/customers";
-	private static final String newCustomersURL = "http://localhost:8080/exercise10_1-service/rest/customers";
+	private static final String newCustomersURL = "http://localhost:8080/exercise10_1-service/rest/customer";
 	private static final String customerURL = "http://localhost:8080/exercise10.1-service/rest/customer/{customerNumber}";
 
 	private RestTemplate restTemplate;
@@ -36,10 +37,9 @@ public class CustomerServiceProxy implements ICustomerService {
 	}
 
 	public Collection<Customer> getCustomers() {
-		Customer customers = restTemplate.getForObject(customersURL,Customer.class);
-				 
-		 return null;
-
+		// return restTemplate.getForObject(customersURL,
+		// Customer.class);
+		return null;
 	}
 
 	public void updateCustomer(Customer customer) {
